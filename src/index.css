@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #1e3a5f;
+  --color-navy-dark: #152d4a;
+  --color-navy-light: #2a4f80;
+  --color-amber: #d4a017;
+  --color-amber-light: #e8b420;
+  --color-amber-dark: #b8880f;
+  --color-cream: #faf8f3;
+  --color-cream-dark: #f0ede4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #f0ede4;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f0ede4;
+}
+::-webkit-scrollbar-thumb {
+  background: #b0b8c4;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1e3a5f;
+}
+
+/* Task priority badges */
+.priority-a {
+  background-color: #dc2626;
+  color: white;
+}
+.priority-b {
+  background-color: #d97706;
+  color: white;
+}
+.priority-c {
+  background-color: #6b7280;
+  color: white;
+}
+
+/* Textarea auto-resize */
+textarea {
+  resize: none;
+}
