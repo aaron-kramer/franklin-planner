@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Trash2, Edit2, GripVertical, Save, Heart } from 'lucide-react';
 import { usePlannerStore } from '../../store/plannerStore';
 import type { Value } from '../../types';
@@ -30,12 +30,7 @@ export function MissionValues() {
     setMissionSaved(true);
   };
 
-  const handleMissionBlur = () => {
-    if (!missionSaved) {
-      setMissionStatement(mission);
-      setMissionSaved(true);
-    }
-  };
+  const sortedValues = [...values].sort((a, b) => a.order - b.order);
 
   const openAddValue = () => {
     setEditingValue(null);
@@ -43,9 +38,9 @@ export function MissionValues() {
     setShowValueModal(true);
   };
 
-  const openEditValue = (value: Value) => {
-    setEditingValue(value);
-    setValueForm({ name: value.name, description: value.description });
+  const openEditValue = (v: Value) => {
+    setEditingValue(v);
+    setValueForm({ name: v.name, description: v.description });
     setShowValueModal(true);
   };
 
@@ -59,76 +54,73 @@ export function MissionValues() {
     setShowValueModal(false);
   };
 
-  const sortedValues = [...values].sort((a, b) => a.order - b.order);
-
-  // Simple drag-and-drop reorder
   const handleDragStart = (idx: number) => setDragIdx(idx);
-  const handleDragOver = (e: React.DragEvent, targetIdx: number) => {
-    e.preventDefault();
-    if (dragIdx === null || dragIdx === targetIdx) return;
-    const newValues = [...sortedValues];
-    const [moved] = newValues.splice(dragIdx, 1);
-    newValues.splice(targetIdx, 0, moved);
-    reorderValues(newValues.map((v, i) => ({ ...v, order: i })));
-    setDragIdx(targetIdx);
+  const handleDrop = (toIdx: number) => {
+    if (dragIdx === null || dragIdx === toIdx) return;
+    const newOrder = [...sortedValues];
+    const [moved] = newOrder.splice(dragIdx, 1);
+    newOrder.splice(toIdx, 0, moved);
+    reorderValues(newOrder.map((v, i) => ({ ...v, order: i })));
+    setDragIdx(null);
   };
-  const handleDragEnd = () => setDragIdx(null);
+
+  const inputClass = "w-full border border-[#5a2a18] rounded-lg px-3 py-2 text-sm bg-[#140e0a] text-[#e8d4a0] placeholder-[#3a2010] focus:outline-none focus:ring-2 focus:ring-[#8b1515]/40";
 
   return (
     <div className="p-4 md:p-6 max-w-3xl mx-auto">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[#1e3a5f]">Mission & Values</h1>
-        <p className="text-sm text-gray-400 mt-1">The foundation of 4th Generation planning — know who you are and what matters most</p>
+      <div className="mb-4 md:mb-6">
+        <h1 className="text-xl md:text-2xl font-bold text-[#e8d4a0]">Mission & Values</h1>
+        <p className="hidden sm:block text-xs text-[#6a4828] mt-1 font-['Cinzel',serif] tracking-wide">Your compass — the foundation of all decisions</p>
       </div>
 
+      <div className="rune-divider mb-4 md:mb-6" />
+
       {/* Mission Statement */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 bg-gradient-to-r from-[#1e3a5f] to-[#2a4f80]">
+      <div className="bg-[#1a1210] rounded-xl border border-[#3a2010] overflow-hidden mb-6" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
+        <div
+          className="px-5 py-4 border-b border-[#3a2010] flex items-center justify-between"
+          style={{ background: 'linear-gradient(135deg, #1a0808 0%, #2a1010 100%)' }}
+        >
           <div className="flex items-center gap-2">
-            <Heart size={18} className="text-[#d4a017]" />
-            <h2 className="font-semibold text-white">Personal Mission Statement</h2>
+            <Heart size={16} className="text-[#8b1515]" style={{ filter: 'drop-shadow(0 0 4px #8b1515)' }} />
+            <h2 className="font-semibold text-[#e8d4a0] font-['Cinzel',serif] tracking-wide text-sm">Personal Mission Statement</h2>
           </div>
           <div className="flex items-center gap-2">
-            {!missionSaved && (
-              <span className="text-xs text-amber-300">Unsaved</span>
-            )}
+            {!missionSaved && <span className="text-xs text-[#c05808]">Unsaved</span>}
+            {missionSaved && mission && <span className="text-xs text-[#4aaa60]">Saved</span>}
             <button
               onClick={handleSaveMission}
               disabled={missionSaved}
               className={`flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg transition-colors ${
-                missionSaved
-                  ? 'text-white/30 cursor-default'
-                  : 'bg-[#d4a017] text-white hover:bg-[#b8880f]'
+                missionSaved ? 'text-[#3a2010] cursor-default' : 'text-[#c05808] bg-[#8b1515]/10 hover:bg-[#8b1515]/20'
               }`}
             >
               <Save size={12} /> Save
             </button>
           </div>
         </div>
-
         <div className="p-5">
-          <p className="text-sm text-gray-500 mb-3 italic">
-            "A personal mission statement becomes a personal constitution — the basis for making major, life-directing decisions." — Stephen Covey
+          <p className="text-xs text-[#6a4828] mb-3 italic font-['Cinzel',serif]">
+            "What do I want to be and do? What are my values? What is my vision?"
           </p>
           <textarea
             value={mission}
             onChange={e => handleMissionChange(e.target.value)}
-            onBlur={handleMissionBlur}
-            rows={10}
-            placeholder="Write your personal mission statement here. Consider: What are my most important values? What kind of person do I want to be? What do I want to accomplish? What impact do I want to have?"
-            className="w-full text-sm text-gray-700 border border-gray-100 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20 bg-[#faf8f3] resize-none leading-relaxed"
+            onBlur={() => { if (!missionSaved) handleSaveMission(); }}
+            rows={6}
+            placeholder="Inscribe your personal mission here…"
+            className="w-full text-sm text-[#c8aa78] border border-[#3a2010] rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#8b1515]/30 bg-[#140e0a] placeholder-[#3a2010] resize-none leading-relaxed"
           />
-          <p className="text-xs text-gray-300 mt-1.5">Auto-saves on blur, or click Save above.</p>
         </div>
       </div>
 
       {/* Governing Values */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+      <div className="bg-[#1a1210] rounded-xl border border-[#3a2010] overflow-hidden" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#3a2010]">
           <div>
-            <h2 className="font-semibold text-[#1e3a5f]">Governing Values</h2>
-            <p className="text-xs text-gray-400 mt-0.5">The principles that guide your decisions and actions</p>
+            <h2 className="font-semibold text-[#e8d4a0] font-['Cinzel',serif] tracking-wide text-sm">Governing Values</h2>
+            <p className="text-xs text-[#4a3020] mt-0.5">The principles that guide your every decision</p>
           </div>
           <Button size="sm" onClick={openAddValue}>
             <Plus size={14} /> Add Value
@@ -136,51 +128,55 @@ export function MissionValues() {
         </div>
 
         {sortedValues.length === 0 ? (
-          <div className="p-10 text-center text-gray-400">
-            <p className="mb-3 text-sm">No governing values defined yet.</p>
+          <div className="p-8 text-center text-[#3a2010] italic">
+            <p className="mb-3">No governing values defined yet.</p>
             <Button variant="secondary" size="sm" onClick={openAddValue}>
               <Plus size={14} /> Add your first value
             </Button>
           </div>
         ) : (
-          <div className="divide-y divide-gray-50">
+          <div className="divide-y divide-[#2a1808]">
             {sortedValues.map((value, idx) => (
               <div
                 key={value.id}
                 draggable
                 onDragStart={() => handleDragStart(idx)}
-                onDragOver={e => handleDragOver(e, idx)}
-                onDragEnd={handleDragEnd}
-                className={`flex items-start gap-3 px-5 py-4 group hover:bg-gray-50 transition-colors cursor-grab active:cursor-grabbing ${
-                  dragIdx === idx ? 'opacity-50 bg-blue-50' : ''
+                onDragOver={e => e.preventDefault()}
+                onDrop={() => handleDrop(idx)}
+                className={`flex items-start gap-3 px-5 py-4 hover:bg-[#221810] group transition-colors cursor-grab active:cursor-grabbing ${
+                  dragIdx === idx ? 'opacity-50' : ''
                 }`}
               >
-                <div className="shrink-0 mt-1 text-gray-300 group-hover:text-gray-400">
-                  <GripVertical size={16} />
+                <div className="shrink-0 mt-0.5 cursor-grab">
+                  <GripVertical size={16} className="text-[#3a2010] group-hover:text-[#6a4828]" />
                 </div>
+
                 <div
-                  className="shrink-0 w-7 h-7 rounded-full bg-[#d4a017] flex items-center justify-center text-white text-xs font-bold"
+                  className="shrink-0 w-7 h-7 rounded-full bg-[#8b1515]/20 border border-[#8b1515]/40 flex items-center justify-center text-xs font-bold text-[#c05808] font-['Cinzel',serif] mt-0.5"
+                  style={{ boxShadow: '0 0 4px rgba(139,21,21,0.2)' }}
                 >
                   {idx + 1}
                 </div>
+
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-gray-800">{value.name}</div>
+                  <div className="font-semibold text-[#e8d4a0] font-['Cinzel',serif] tracking-wide">{value.name}</div>
                   {value.description && (
-                    <div className="text-sm text-gray-500 mt-0.5">{value.description}</div>
+                    <div className="text-sm text-[#8a6848] mt-0.5">{value.description}</div>
                   )}
                 </div>
-                <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+
+                <div className="flex gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity shrink-0">
                   <button
                     onClick={() => openEditValue(value)}
-                    className="p-1.5 rounded hover:bg-gray-100 text-gray-300 hover:text-gray-500"
+                    className="p-1.5 rounded hover:bg-[#3a2010] text-[#3a2010] hover:text-[#c8aa78]"
                   >
-                    <Edit2 size={13} />
+                    <Edit2 size={14} />
                   </button>
                   <button
                     onClick={() => deleteValue(value.id)}
-                    className="p-1.5 rounded hover:bg-red-50 text-gray-300 hover:text-red-500"
+                    className="p-1.5 rounded hover:bg-[#1a0808] text-[#3a2010] hover:text-[#c02020]"
                   >
-                    <Trash2 size={13} />
+                    <Trash2 size={14} />
                   </button>
                 </div>
               </div>
@@ -189,39 +185,33 @@ export function MissionValues() {
         )}
       </div>
 
-      {/* Guiding Tips */}
-      <div className="mt-6 bg-amber-50 border border-amber-100 rounded-xl p-5">
-        <h3 className="font-semibold text-amber-900 mb-2 text-sm">Franklin Covey Guidance</h3>
-        <ul className="text-sm text-amber-800 space-y-1.5 list-disc list-inside">
-          <li>Your mission statement is your personal constitution — revisit and refine it regularly</li>
-          <li>Governing values should reflect what truly matters, not what sounds good</li>
-          <li>Weekly planning begins by reviewing your roles and asking: what Big Rocks should I schedule this week?</li>
-          <li>Daily planning starts by asking: what A-priority tasks move me toward my goals?</li>
-        </ul>
-      </div>
-
       {/* Value Modal */}
-      <Modal isOpen={showValueModal} onClose={() => setShowValueModal(false)} title={editingValue ? 'Edit Value' : 'Add Governing Value'} size="sm">
+      <Modal
+        isOpen={showValueModal}
+        onClose={() => setShowValueModal(false)}
+        title={editingValue ? 'Edit Value' : 'Add Governing Value'}
+        size="sm"
+      >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Value Name *</label>
+            <label className="block text-sm font-medium text-[#c8aa78] mb-1 font-['Cinzel',serif]">Value Name *</label>
             <input
               type="text"
               value={valueForm.name}
               onChange={e => setValueForm(f => ({ ...f, name: e.target.value }))}
               onKeyDown={e => e.key === 'Enter' && handleSaveValue()}
               autoFocus
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/30"
-              placeholder="e.g., Integrity, Family, Growth"
+              className={inputClass}
+              placeholder="e.g., Integrity, Courage, Wisdom"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <label className="block text-sm font-medium text-[#c8aa78] mb-1 font-['Cinzel',serif]">Description</label>
             <textarea
               value={valueForm.description}
               onChange={e => setValueForm(f => ({ ...f, description: e.target.value }))}
               rows={3}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/30"
+              className={inputClass}
               placeholder="What does this value mean to you?"
             />
           </div>

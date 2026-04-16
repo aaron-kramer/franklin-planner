@@ -21,29 +21,32 @@ export function DailyPage({ selectedDate, onDateChange }: DailyPageProps) {
           <div className="flex items-center gap-0.5">
             <button
               onClick={() => onDateChange(subDay(selectedDate))}
-              className="p-2 rounded-lg hover:bg-white hover:shadow-sm text-gray-500 hover:text-[#1e3a5f] transition-all"
+              className="p-2 rounded-lg hover:bg-[#2a1810] text-[#6a4828] hover:text-[#e8d4a0] transition-all"
             >
               <ChevronLeft size={18} />
             </button>
             <button
               onClick={() => onDateChange(addDay(selectedDate))}
-              className="p-2 rounded-lg hover:bg-white hover:shadow-sm text-gray-500 hover:text-[#1e3a5f] transition-all"
+              className="p-2 rounded-lg hover:bg-[#2a1810] text-[#6a4828] hover:text-[#e8d4a0] transition-all"
             >
               <ChevronRight size={18} />
             </button>
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-xl md:text-2xl font-bold text-[#1e3a5f]">
+              <h1 className="text-xl md:text-2xl font-bold text-[#e8d4a0]">
                 {formatDisplayDate(selectedDate)}
               </h1>
               {isToday && (
-                <span className="bg-[#d4a017] text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                <span
+                  className="bg-[#8b1515] text-[#f0d090] text-xs font-bold px-2 py-0.5 rounded-full font-['Cinzel',serif]"
+                  style={{ boxShadow: '0 0 6px rgba(139,21,21,0.5)' }}
+                >
                   TODAY
                 </span>
               )}
             </div>
-            <p className="hidden sm:block text-sm text-gray-400 mt-0.5">Daily Planner Page</p>
+            <p className="hidden sm:block text-xs text-[#6a4828] mt-0.5 font-['Cinzel',serif] tracking-widest uppercase">Daily Planner</p>
           </div>
         </div>
 
@@ -52,7 +55,7 @@ export function DailyPage({ selectedDate, onDateChange }: DailyPageProps) {
             type="date"
             value={selectedDate}
             onChange={e => e.target.value && onDateChange(e.target.value)}
-            className="border border-gray-200 rounded-lg px-2 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/30"
+            className="border border-[#5a2a18] rounded-lg px-2 py-1.5 text-sm bg-[#1a1210] text-[#e8d4a0] focus:outline-none focus:ring-2 focus:ring-[#8b1515]/40"
             aria-label="Jump to date"
           />
           {!isToday && (
@@ -63,6 +66,9 @@ export function DailyPage({ selectedDate, onDateChange }: DailyPageProps) {
           )}
         </div>
       </div>
+
+      {/* Rune divider */}
+      <div className="rune-divider mb-4 md:mb-6" />
 
       {/* Main content: 2 columns on large screens */}
       <div className="grid lg:grid-cols-5 gap-4 md:gap-6">

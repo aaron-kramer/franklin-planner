@@ -27,7 +27,6 @@ export function DailyNotes({ date }: DailyNotesProps) {
     setSaved(true);
   };
 
-  // Auto-save on blur
   const handleBlur = () => {
     if (!saved) {
       setDailyNote(date, content);
@@ -36,22 +35,22 @@ export function DailyNotes({ date }: DailyNotesProps) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-        <h2 className="font-semibold text-[#1e3a5f]">Daily Notes</h2>
+    <div className="bg-[#1a1210] rounded-xl border border-[#3a2010] overflow-hidden" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
+      <div className="flex items-center justify-between px-5 py-4 border-b border-[#3a2010]">
+        <h2 className="font-semibold text-[#e8d4a0] font-['Cinzel',serif] tracking-wide text-sm">Daily Chronicle</h2>
         <div className="flex items-center gap-2">
           {!saved && (
-            <span className="text-xs text-amber-500">Unsaved</span>
+            <span className="text-xs text-[#c05808]">Unsaved</span>
           )}
           {saved && content && (
-            <span className="text-xs text-green-500">Saved</span>
+            <span className="text-xs text-[#4aaa60]">Saved</span>
           )}
           <button
             onClick={handleSave}
             className={`flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg transition-colors ${
               saved
-                ? 'text-gray-300 cursor-default'
-                : 'text-[#1e3a5f] bg-[#1e3a5f]/10 hover:bg-[#1e3a5f]/20'
+                ? 'text-[#3a2010] cursor-default'
+                : 'text-[#c05808] bg-[#8b1515]/10 hover:bg-[#8b1515]/20'
             }`}
             disabled={saved}
           >
@@ -65,10 +64,10 @@ export function DailyNotes({ date }: DailyNotesProps) {
           onChange={e => handleChange(e.target.value)}
           onBlur={handleBlur}
           rows={8}
-          placeholder="Capture thoughts, insights, follow-ups, and ideas for today…"
-          className="w-full text-sm text-gray-700 border border-gray-100 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20 bg-[#faf8f3] resize-none leading-relaxed"
+          placeholder="Inscribe your thoughts, insights, and wisdom here…"
+          className="w-full text-sm text-[#c8aa78] border border-[#3a2010] rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#8b1515]/30 bg-[#140e0a] placeholder-[#3a2010] resize-none leading-relaxed"
         />
-        <p className="text-xs text-gray-300 mt-1">Notes auto-save on blur, or press Save above.</p>
+        <p className="text-xs text-[#3a2010] mt-1">Notes auto-save on blur.</p>
       </div>
     </div>
   );

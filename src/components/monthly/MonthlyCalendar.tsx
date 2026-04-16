@@ -23,8 +23,8 @@ export function MonthlyCalendar({ onNavigateToDay }: MonthlyCalendarProps) {
   const getApptsForDay = (dateStr: string) => appointments.filter(a => a.date === dateStr);
 
   const getRoleColor = (roleId?: string) => {
-    if (!roleId) return '#1e3a5f';
-    return roles.find(r => r.id === roleId)?.color || '#1e3a5f';
+    if (!roleId) return '#8b1515';
+    return roles.find(r => r.id === roleId)?.color || '#8b1515';
   };
 
   const isThisMonth = (date: Date) => isSameMonthStr(format(date, 'yyyy-MM-dd'), monthStr);
@@ -38,22 +38,22 @@ export function MonthlyCalendar({ onNavigateToDay }: MonthlyCalendarProps) {
           <div className="flex items-center gap-0.5">
             <button
               onClick={() => setCurrentMonth(m => subMonths(m, 1))}
-              className="p-2 rounded-lg hover:bg-white hover:shadow-sm text-gray-500 hover:text-[#1e3a5f] transition-all"
+              className="p-2 rounded-lg hover:bg-[#2a1810] text-[#6a4828] hover:text-[#e8d4a0] transition-all"
             >
               <ChevronLeft size={18} />
             </button>
             <button
               onClick={() => setCurrentMonth(m => addMonths(m, 1))}
-              className="p-2 rounded-lg hover:bg-white hover:shadow-sm text-gray-500 hover:text-[#1e3a5f] transition-all"
+              className="p-2 rounded-lg hover:bg-[#2a1810] text-[#6a4828] hover:text-[#e8d4a0] transition-all"
             >
               <ChevronRight size={18} />
             </button>
           </div>
           <div>
-            <h1 className="text-xl md:text-2xl font-bold text-[#1e3a5f]">
+            <h1 className="text-xl md:text-2xl font-bold text-[#e8d4a0]">
               {format(currentMonth, 'MMMM yyyy')}
             </h1>
-            <p className="hidden sm:block text-sm text-gray-400">Monthly Overview</p>
+            <p className="hidden sm:block text-xs text-[#6a4828] font-['Cinzel',serif] tracking-widest uppercase mt-0.5">Monthly Overview</p>
           </div>
         </div>
         <Button
@@ -65,12 +65,14 @@ export function MonthlyCalendar({ onNavigateToDay }: MonthlyCalendarProps) {
         </Button>
       </div>
 
+      <div className="rune-divider mb-4 md:mb-6" />
+
       {/* Calendar grid */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-[#1a1210] rounded-xl border border-[#3a2010] overflow-hidden" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
         {/* Day of week headers */}
-        <div className="grid grid-cols-7 border-b border-gray-100">
+        <div className="grid grid-cols-7 border-b border-[#3a2010]">
           {DOW_LABELS_FULL.map((d, i) => (
-            <div key={d + i} className="py-2 md:py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            <div key={d + i} className="py-2 md:py-3 text-center text-xs font-semibold text-[#6a4828] uppercase tracking-wider font-['Cinzel',serif]">
               <span className="hidden sm:inline">{d}</span>
               <span className="sm:hidden">{DOW_LABELS_SHORT[i]}</span>
             </div>
@@ -78,7 +80,7 @@ export function MonthlyCalendar({ onNavigateToDay }: MonthlyCalendarProps) {
         </div>
 
         {/* Calendar cells */}
-        <div className="grid grid-cols-7 divide-x divide-gray-50">
+        <div className="grid grid-cols-7 divide-x divide-[#2a1808]">
           {days.map((date) => {
             const dateStr = format(date, 'yyyy-MM-dd');
             const inMonth = isThisMonth(date);
@@ -92,61 +94,63 @@ export function MonthlyCalendar({ onNavigateToDay }: MonthlyCalendarProps) {
               <div
                 key={dateStr}
                 onClick={() => onNavigateToDay(dateStr)}
-                className={`min-h-[60px] md:min-h-[100px] p-1 md:p-2 cursor-pointer transition-colors border-b border-gray-50 hover:bg-[#faf8f3] active:bg-[#faf8f3] ${
-                  !inMonth ? 'bg-gray-50/50' : ''
-                } ${today ? 'ring-2 ring-inset ring-[#d4a017]' : ''}`}
+                className={`min-h-[60px] md:min-h-[100px] p-1 md:p-2 cursor-pointer transition-colors border-b border-[#2a1808] hover:bg-[#221810] active:bg-[#221810] ${
+                  !inMonth ? 'bg-[#120e0a] opacity-50' : ''
+                }`}
+                style={today ? { boxShadow: 'inset 0 0 0 2px #8b1515', background: '#1e0a0a' } : {}}
               >
                 {/* Date number */}
                 <div className="flex items-start justify-between mb-1">
                   <span
-                    className={`text-xs md:text-sm font-semibold w-6 h-6 md:w-7 md:h-7 flex items-center justify-center rounded-full ${
+                    className={`text-xs md:text-sm font-semibold w-6 h-6 md:w-7 md:h-7 flex items-center justify-center rounded-full font-['Cinzel',serif] ${
                       today
-                        ? 'bg-[#1e3a5f] text-white'
+                        ? 'text-[#f0d090]'
                         : inMonth
-                        ? 'text-gray-700'
-                        : 'text-gray-300'
+                        ? 'text-[#c8aa78]'
+                        : 'text-[#3a2010]'
                     }`}
+                    style={today ? { backgroundColor: '#8b1515', boxShadow: '0 0 6px rgba(139,21,21,0.5)' } : {}}
                   >
                     {format(date, 'd')}
                   </span>
-                  {/* Task count dots — compact on mobile */}
+                  {/* Task counts */}
                   {(pending > 0 || completed > 0) && (
                     <div className="flex gap-0.5 flex-wrap justify-end">
                       {completed > 0 && (
-                        <span className="text-[10px] md:text-xs bg-green-100 text-green-600 px-1 rounded font-medium hidden sm:block">{completed}✓</span>
+                        <span className="text-[10px] md:text-xs bg-[#0f2010] text-[#4aaa60] px-1 rounded font-medium hidden sm:block">{completed}✓</span>
                       )}
                       {pending > 0 && (
-                        <span className="text-[10px] md:text-xs bg-gray-100 text-gray-500 px-1 rounded font-medium hidden sm:block">{pending}</span>
+                        <span className="text-[10px] md:text-xs bg-[#2a1808] text-[#8a6848] px-1 rounded font-medium hidden sm:block">{pending}</span>
                       )}
-                      {/* Mobile: just dots */}
-                      {(pending > 0 || completed > 0) && (
-                        <div className="sm:hidden flex gap-0.5 mt-0.5">
-                          {completed > 0 && <div className="w-1.5 h-1.5 rounded-full bg-green-500" />}
-                          {pending > 0 && <div className="w-1.5 h-1.5 rounded-full bg-gray-400" />}
-                        </div>
-                      )}
+                      {/* Mobile dots */}
+                      <div className="sm:hidden flex gap-0.5 mt-0.5">
+                        {completed > 0 && <div className="w-1.5 h-1.5 rounded-full bg-[#4aaa60]" />}
+                        {pending > 0 && <div className="w-1.5 h-1.5 rounded-full bg-[#6a4828]" />}
+                      </div>
                     </div>
                   )}
                 </div>
 
-                {/* Appointments — hidden on mobile */}
+                {/* Appointments */}
                 {dayAppts.slice(0, 2).map(appt => (
                   <div
                     key={appt.id}
                     className="hidden sm:block text-xs mb-0.5 px-1.5 py-0.5 rounded truncate font-medium text-white"
-                    style={{ backgroundColor: getRoleColor(appt.roleId) }}
+                    style={{ backgroundColor: getRoleColor(appt.roleId), opacity: 0.85 }}
                     title={appt.title}
                   >
                     {appt.startTime.slice(0, 5)} {appt.title}
                   </div>
                 ))}
 
-                {/* Tasks preview — hidden on mobile */}
+                {/* A-task preview */}
                 {dayTasks.filter(t => t.priority === 'A').slice(0, 1).map(task => (
                   <div
                     key={task.id}
                     className={`hidden sm:block text-xs mb-0.5 px-1.5 py-0.5 rounded truncate ${
-                      task.status === 'completed' ? 'bg-green-50 text-green-600 line-through' : 'bg-red-50 text-red-700'
+                      task.status === 'completed'
+                        ? 'bg-[#0f2010] text-[#4aaa60] line-through'
+                        : 'bg-[#8b1515]/15 text-[#f0a0a0] border border-[#8b1515]/20'
                     }`}
                     title={task.title}
                   >
@@ -154,13 +158,13 @@ export function MonthlyCalendar({ onNavigateToDay }: MonthlyCalendarProps) {
                   </div>
                 ))}
 
-                {/* Appointment dot on mobile */}
+                {/* Appointment dot — mobile only */}
                 {dayAppts.length > 0 && (
-                  <div className="sm:hidden w-1.5 h-1.5 rounded-full bg-[#1e3a5f] mt-0.5" />
+                  <div className="sm:hidden w-1.5 h-1.5 rounded-full bg-[#8b1515] mt-0.5" style={{ boxShadow: '0 0 3px #8b1515' }} />
                 )}
 
                 {(dayTasks.length + dayAppts.length) > 3 && (
-                  <div className="hidden sm:block text-xs text-gray-400 mt-0.5">
+                  <div className="hidden sm:block text-xs text-[#4a3020] mt-0.5">
                     +{dayTasks.length + dayAppts.length - 3} more
                   </div>
                 )}
@@ -171,20 +175,20 @@ export function MonthlyCalendar({ onNavigateToDay }: MonthlyCalendarProps) {
       </div>
 
       {/* Legend */}
-      <div className="mt-4 flex flex-wrap gap-3 md:gap-4 text-xs text-gray-500">
+      <div className="mt-4 flex flex-wrap gap-3 md:gap-4 text-xs text-[#6a4828]">
         <span className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-full bg-[#1e3a5f] inline-block" /> Appointment
+          <span className="w-3 h-3 rounded-full bg-[#8b1515] inline-block" style={{ boxShadow: '0 0 4px #8b1515' }} /> Appointment
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-sm bg-red-100 inline-block border border-red-200" /> A-Priority Task
+          <span className="w-3 h-3 rounded-sm bg-[#8b1515]/15 inline-block border border-[#8b1515]/30" /> A-Priority Task
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="font-bold text-green-600">✓</span> Completed
+          <span className="font-bold text-[#4aaa60]">✓</span> Completed
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-full ring-2 ring-[#d4a017] inline-block" /> Today
+          <span className="w-3 h-3 rounded-full inline-block" style={{ backgroundColor: '#8b1515', boxShadow: 'inset 0 0 0 2px #8b1515, 0 0 4px #8b1515' }} /> Today
         </span>
-        <span className="hidden sm:inline ml-auto text-gray-400 italic">Click any day to open its Daily Page</span>
+        <span className="hidden sm:inline ml-auto text-[#3a2010] italic">Tap any day to open its Daily Page</span>
       </div>
     </div>
   );

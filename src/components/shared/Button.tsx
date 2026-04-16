@@ -7,14 +7,14 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function Button({ variant = 'primary', size = 'md', children, className = '', ...props }: ButtonProps) {
-  const base = 'inline-flex items-center gap-2 font-medium rounded-lg transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed';
+  const base = 'inline-flex items-center gap-2 font-medium rounded-lg transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-40 disabled:cursor-not-allowed font-[\'Cinzel\',serif]';
 
   const variants = {
-    primary: 'bg-[#1e3a5f] text-white hover:bg-[#152d4a] focus:ring-[#1e3a5f]/40 shadow-sm',
-    secondary: 'bg-white text-[#1e3a5f] border border-[#1e3a5f]/30 hover:bg-[#1e3a5f]/5 focus:ring-[#1e3a5f]/30',
-    ghost: 'text-gray-600 hover:bg-gray-100 hover:text-gray-800 focus:ring-gray-300',
-    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500/40 shadow-sm',
-    amber: 'bg-[#d4a017] text-white hover:bg-[#b8880f] focus:ring-[#d4a017]/40 shadow-sm',
+    primary: 'bg-[#8b1515] text-[#f0d090] hover:bg-[#a82020] focus:ring-[#8b1515]/40 shadow-sm border border-[#c05808]/30 glow-red-sm',
+    secondary: 'bg-[#1a1210] text-[#c8aa78] border border-[#5a2a18] hover:bg-[#2a1810] hover:border-[#8b1515]/60 focus:ring-[#8b1515]/30',
+    ghost: 'text-[#c8aa78] hover:bg-[#2a1810] hover:text-[#e8d4a0] focus:ring-[#8b1515]/30',
+    danger: 'bg-[#6b0f0f] text-[#f0d090] hover:bg-[#8b1515] focus:ring-[#8b1515]/40 shadow-sm border border-[#8b1515]/50',
+    amber: 'bg-[#904008] text-[#f0d090] hover:bg-[#c05808] focus:ring-[#c05808]/40 shadow-sm border border-[#c05808]/40',
   };
 
   const sizes = {

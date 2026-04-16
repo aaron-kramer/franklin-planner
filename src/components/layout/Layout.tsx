@@ -39,7 +39,7 @@ export function Layout() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#f0ede4]">
+    <div className="flex h-screen overflow-hidden bg-[#0c0806]">
       <Sidebar
         currentPage={currentPage}
         onNavigate={setCurrentPage}
