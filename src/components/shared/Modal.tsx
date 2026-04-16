@@ -27,12 +27,16 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center md:p-4">
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className={`relative bg-white rounded-xl shadow-2xl w-full ${sizeClasses[size]} max-h-[90vh] flex flex-col`}>
+      <div className={`relative bg-white md:rounded-xl rounded-t-2xl shadow-2xl w-full ${sizeClasses[size]} max-h-[92dvh] md:max-h-[90vh] flex flex-col`}>
+        {/* Drag handle — mobile only */}
+        <div className="md:hidden flex justify-center pt-3 pb-1">
+          <div className="w-10 h-1 rounded-full bg-gray-300" />
+        </div>
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <h2 className="text-lg font-semibold text-[#1e3a5f]">{title}</h2>
           <button

@@ -73,11 +73,11 @@ export function Dashboard({ onNavigateToDay, onNavigate }: DashboardProps) {
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="p-4 md:p-6 max-w-5xl mx-auto">
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-6 md:mb-8">
         <p className="text-[#d4a017] font-medium text-sm uppercase tracking-wider mb-1">Today</p>
-        <h1 className="text-3xl font-bold text-[#1e3a5f]">{formatDisplayDate(TODAY)}</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-[#1e3a5f]">{formatDisplayDate(TODAY)}</h1>
       </div>
 
       {/* Stats Row */}
@@ -88,7 +88,7 @@ export function Dashboard({ onNavigateToDay, onNavigate }: DashboardProps) {
         <StatCard icon={<Target className="text-purple-500" />} label="Goals Active" value={totalGoals - completedGoals} total={totalGoals} color="purple" />
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-3 gap-4 md:gap-6">
         {/* Today's Tasks */}
         <div className="md:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100">
           <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
@@ -102,12 +102,12 @@ export function Dashboard({ onNavigateToDay, onNavigate }: DashboardProps) {
           </div>
 
           {/* Quick Add */}
-          <div className="px-5 py-3 bg-[#faf8f3] border-b border-gray-100">
-            <div className="flex gap-2">
+          <div className="px-4 md:px-5 py-3 bg-[#faf8f3] border-b border-gray-100">
+            <div className="flex flex-wrap gap-2">
               <select
                 value={quickPriority}
                 onChange={e => setQuickPriority(e.target.value as Priority)}
-                className="border border-gray-200 rounded-lg px-2 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/30"
+                className="border border-gray-200 rounded-lg px-2 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/30 shrink-0"
               >
                 <option value="A">A – Must Do</option>
                 <option value="B">B – Should Do</option>
@@ -119,7 +119,7 @@ export function Dashboard({ onNavigateToDay, onNavigate }: DashboardProps) {
                 onChange={e => setQuickTask(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleQuickAdd()}
                 placeholder="Quick add task…"
-                className="flex-1 border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/30"
+                className="flex-1 min-w-[120px] border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/30"
               />
               <Button size="sm" onClick={handleQuickAdd}>
                 <Plus size={14} /> Add

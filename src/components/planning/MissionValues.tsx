@@ -75,7 +75,7 @@ export function MissionValues() {
   const handleDragEnd = () => setDragIdx(null);
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
+    <div className="p-4 md:p-6 max-w-3xl mx-auto">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-[#1e3a5f]">Mission & Values</h1>

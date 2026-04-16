@@ -228,8 +228,8 @@ export function TaskList({ date }: TaskListProps) {
                       </div>
                     </div>
 
-                    {/* Actions */}
-                    <div className="shrink-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    {/* Actions — always visible on touch, hover-reveal on desktop */}
+                    <div className="shrink-0 flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                       {task.status === 'pending' && (
                         <button
                           onClick={() => carryForward(task)}

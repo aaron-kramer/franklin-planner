@@ -94,12 +94,12 @@ export function RolesGoals() {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-4 md:p-6 max-w-4xl mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4 md:mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-[#1e3a5f]">Roles & Goals</h1>
-          <p className="text-sm text-gray-400 mt-1">Define your key life roles and the goals that matter most in each</p>
+          <h1 className="text-xl md:text-2xl font-bold text-[#1e3a5f]">Roles & Goals</h1>
+          <p className="hidden sm:block text-sm text-gray-400 mt-1">Define your key life roles and the goals that matter most in each</p>
         </div>
         <Button onClick={openAddRole}>
           <Plus size={14} /> Add Role
@@ -198,7 +198,7 @@ export function RolesGoals() {
                                 </div>
                               )}
                             </div>
-                            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                            <div className="flex gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity shrink-0">
                               <button
                                 onClick={() => openEditGoal(goal)}
                                 className="p-1 rounded hover:bg-gray-100 text-gray-300 hover:text-gray-500"

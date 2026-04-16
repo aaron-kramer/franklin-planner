@@ -46,7 +46,8 @@ export function Layout() {
         collapsed={collapsed}
         onToggleCollapse={() => setCollapsed(c => !c)}
       />
-      <main className="flex-1 overflow-y-auto">
+      {/* pb-20 on mobile reserves space above the bottom nav */}
+      <main className="flex-1 overflow-y-auto pb-20 md:pb-0">
         {renderPage()}
       </main>
     </div>

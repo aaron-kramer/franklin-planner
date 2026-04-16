@@ -71,11 +71,11 @@ export function WeeklyPlanner({ onNavigateToDay }: WeeklyPlannerProps) {
   const isToday = (day: string) => day === TODAY;
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-4 md:p-6 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 md:mb-6">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-0.5">
             <button
               onClick={() => setWeekStart(prevWeek(weekStart))}
               className="p-2 rounded-lg hover:bg-white hover:shadow-sm text-gray-500 hover:text-[#1e3a5f] transition-all"
@@ -90,13 +90,14 @@ export function WeeklyPlanner({ onNavigateToDay }: WeeklyPlannerProps) {
             </button>
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-[#1e3a5f]">
-              Week {weekNum} — {formatShortDate(weekStart)} to {formatShortDate(weekDays[6])}
+            <h1 className="text-xl md:text-2xl font-bold text-[#1e3a5f]">
+              <span className="hidden sm:inline">Week {weekNum} — </span>
+              {formatShortDate(weekStart)} – {formatShortDate(weekDays[6])}
             </h1>
-            <p className="text-sm text-gray-400">Weekly Planning</p>
+            <p className="hidden sm:block text-sm text-gray-400">Weekly Planning</p>
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 shrink-0">
           <Button variant="secondary" size="sm" onClick={() => setWeekStart(getWeekStart(TODAY))}>
             <Calendar size={14} /> This Week
           </Button>
@@ -152,7 +153,7 @@ export function WeeklyPlanner({ onNavigateToDay }: WeeklyPlannerProps) {
                         )}
                       </div>
                     </div>
-                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                       <button
                         onClick={() => openEdit(rock)}
                         className="text-xs text-[#1e3a5f] hover:text-[#1e3a5f]/70 px-2 py-1 rounded hover:bg-gray-100"
@@ -180,7 +181,8 @@ export function WeeklyPlanner({ onNavigateToDay }: WeeklyPlannerProps) {
           <h2 className="font-semibold text-[#1e3a5f]">Week at a Glance</h2>
         </div>
 
-        <div className="grid grid-cols-7 divide-x divide-gray-100 overflow-x-auto">
+        <div className="overflow-x-auto">
+        <div className="grid grid-cols-7 divide-x divide-gray-100 min-w-[560px]">
           {weekDays.map(day => {
             const dayTasks = getDayTasks(day);
             const dayAppts = getDayAppointments(day);
@@ -264,6 +266,7 @@ export function WeeklyPlanner({ onNavigateToDay }: WeeklyPlannerProps) {
             );
           })}
         </div>
+        </div>{/* end overflow-x-auto */}
       </div>
 
       {/* Roles Summary */}
@@ -272,7 +275,7 @@ export function WeeklyPlanner({ onNavigateToDay }: WeeklyPlannerProps) {
           <h2 className="font-semibold text-[#1e3a5f]">Roles Balance This Week</h2>
           <p className="text-xs text-gray-400 mt-0.5">Are you spending time in all your key roles?</p>
         </div>
-        <div className="p-4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+        <div className="p-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-7 gap-3">
           {roles.sort((a, b) => a.order - b.order).map(role => {
             const roleRocks = weekBigRocks.filter(b => b.roleId === role.id);
             const roleTasks = tasks.filter(t => weekDays.includes(t.date) && t.roleId === role.id);

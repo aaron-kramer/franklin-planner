@@ -14,11 +14,11 @@ export function DailyPage({ selectedDate, onDateChange }: DailyPageProps) {
   const isToday = selectedDate === TODAY;
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="p-4 md:p-6 max-w-6xl mx-auto">
       {/* Header / Date Navigation */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1">
+      <div className="flex items-center justify-between mb-4 md:mb-6">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-0.5">
             <button
               onClick={() => onDateChange(subDay(selectedDate))}
               className="p-2 rounded-lg hover:bg-white hover:shadow-sm text-gray-500 hover:text-[#1e3a5f] transition-all"
@@ -33,8 +33,8 @@ export function DailyPage({ selectedDate, onDateChange }: DailyPageProps) {
             </button>
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold text-[#1e3a5f]">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h1 className="text-xl md:text-2xl font-bold text-[#1e3a5f]">
                 {formatDisplayDate(selectedDate)}
               </h1>
               {isToday && (
@@ -43,32 +43,31 @@ export function DailyPage({ selectedDate, onDateChange }: DailyPageProps) {
                 </span>
               )}
             </div>
-            <p className="text-sm text-gray-400 mt-0.5">Daily Planner Page</p>
+            <p className="hidden sm:block text-sm text-gray-400 mt-0.5">Daily Planner Page</p>
           </div>
         </div>
 
-        {!isToday && (
-          <Button variant="secondary" size="sm" onClick={() => onDateChange(TODAY)}>
-            <Calendar size={14} /> Go to Today
-          </Button>
-        )}
-      </div>
-
-      {/* Date input for jumping */}
-      <div className="mb-6 flex items-center gap-2">
-        <label className="text-sm text-gray-500">Jump to date:</label>
-        <input
-          type="date"
-          value={selectedDate}
-          onChange={e => e.target.value && onDateChange(e.target.value)}
-          className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/30"
-        />
+        <div className="flex items-center gap-2">
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={e => e.target.value && onDateChange(e.target.value)}
+            className="border border-gray-200 rounded-lg px-2 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/30"
+            aria-label="Jump to date"
+          />
+          {!isToday && (
+            <Button variant="secondary" size="sm" onClick={() => onDateChange(TODAY)}>
+              <Calendar size={14} />
+              <span className="hidden sm:inline">Today</span>
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Main content: 2 columns on large screens */}
-      <div className="grid lg:grid-cols-5 gap-6">
+      <div className="grid lg:grid-cols-5 gap-4 md:gap-6">
         {/* Left: Tasks + Notes */}
-        <div className="lg:col-span-3 space-y-6">
+        <div className="lg:col-span-3 space-y-4 md:space-y-6">
           <TaskList date={selectedDate} />
           <DailyNotes date={selectedDate} />
         </div>
